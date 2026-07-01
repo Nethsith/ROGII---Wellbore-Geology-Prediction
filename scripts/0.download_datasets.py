@@ -1,5 +1,6 @@
 import kagglehub
 from pathlib import Path
+import subprocess
 
 COMPETITION_NAME = "rogii-wellbore-geology-prediction"
 
@@ -18,13 +19,19 @@ def download_dataset():
 
     RAW_DATA_DIR.mkdir(parents=True, exist_ok=True)
 
-    path = kagglehub.competition_download(
-        COMPETITION_NAME,
-        output_dir=str(RAW_DATA_DIR)
-    )
+    subprocess.run([
+        "kaggle",
+        "competitions",
+        "download",
+        "-c", COMPETITION_NAME,
+        "-p", str(RAW_DATA_DIR),
+        "--force"
+    ], check=True)
 
-    print("Dataset downloaded to:", path)
-    return Path(path)
+    print("Download completed!")
+
+    print("Dataset downloaded to:", RAW_DATA_DIR)
+    return RAW_DATA_DIR
 
 
 if __name__ == "__main__":
