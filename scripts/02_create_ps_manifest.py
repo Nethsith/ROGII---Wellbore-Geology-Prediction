@@ -167,7 +167,13 @@ def main():
 
     # Full validation report: valid + invalid files.
     report_df.to_csv(REPORT_PATH, index=False)
-
+    report_df.columns = report_df.columns.str.strip().str.lower()
+    
+    if "status" not in report_df.columns:
+        raise ValueError(
+            f"Missing 'status' column. Available columns: {list(report_df.columns)}"
+        )
+    
     # Only valid wells become part of the PS manifest.
     manifest_df = report_df[
         report_df["status"] == "valid"
