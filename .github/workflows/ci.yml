@@ -33,6 +33,11 @@ jobs:
           echo "{\"username\":\"${{ secrets.KAGGLE_USERNAME }}\",\"key\":\"${{ secrets.KAGGLE_KEY }}\"}" > ~/.kaggle/kaggle.json
           chmod 600 ~/.kaggle/kaggle.json
 
+      - name: Debug Kaggle auth
+        run: |
+          ls -la ~/.kaggle || true
+          cat ~/.kaggle/kaggle.json || true
+
       - name: Run scripts
         run: |
           for file in scripts/*.py; do
