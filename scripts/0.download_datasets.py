@@ -1,5 +1,6 @@
 import kagglehub
 from pathlib import Path
+import os
 
 COMPETITION_NAME = "rogii-wellbore-geology-prediction"
 
@@ -8,6 +9,15 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 # data/raw
 RAW_DATA_DIR = PROJECT_ROOT / "data" / "raw"
+
+KAGGLE_USERNAME = os.getenv("KAGGLE_USERNAME")
+KAGGLE_KEY = os.getenv("KAGGLE_KEY")
+
+if KAGGLE_USERNAME is not None:
+    os.environ["KAGGLE_USERNAME"] = KAGGLE_USERNAME
+
+if KAGGLE_KEY is not None:
+    os.environ["KAGGLE_KEY"] = KAGGLE_KEY
 
 
 def download_dataset():
