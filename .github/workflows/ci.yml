@@ -3,11 +3,11 @@ name: CI
 on:
   push:
     branches:
-      - main
+      - main , thilokya
   pull_request:
     branches:
       - main
-      
+
 jobs:
   python:
     runs-on: ubuntu-latest
@@ -25,6 +25,12 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
+      
+      - name: Setup Kaggle credentials
+        run: |
+          mkdir -p ~/.kaggle
+          echo '{"username":"${{ secrets.KAGGLE_USERNAME }}","key":"${{ secrets.KAGGLE_KEY }}"}' > ~/.kaggle/kaggle.json
+          chmod 600 ~/.kaggle/kaggle.json
 
       # 🔥 CACHE DATASET HERE
       - name: Cache dataset
