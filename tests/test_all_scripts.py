@@ -3,24 +3,31 @@ import subprocess
 import sys
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-
 SCRIPT_DIR = PROJECT_ROOT / "scripts"
 
 py_files = sorted(SCRIPT_DIR.glob("*.py"))
 
+failed_scripts = []
+
 for script in py_files:
-    print(f"Running: {script.name}")
-    
+    print(f"\nRunning: {script.name}")
+
     result = subprocess.run(
         [sys.executable, str(script)],
-        capture_output=True,
         text=True
     )
 
-    print("STDOUT:")
-    print(result.stdout)
+    if result.returncode != 0:
+        print(f"❌ FAILED: {script.name}")
+        failed_scripts.append(script.name)
+    else:
+        print(f"✅ PASSED: {script.name}")
 
-    print("STDERR:")
-    print(result.stderr)
+# 🚨 Fail CI if any script failed
+if failed_scripts:
+    print("\nFailed scripts:")
+    for s in failed_scripts:
+        print("-", s)
+    sys.exit(1)
 
-    print("=" * 50)
+print("\n🎉 All scripts passed!")

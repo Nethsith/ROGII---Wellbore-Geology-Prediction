@@ -26,6 +26,9 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Run Python scripts
+      - name: Run scripts 
         run: |
-          python tests/test_all_scripts.py
+          for file in scripts/*.py; do
+            echo "Running $file"
+            python "$file"
+          done
