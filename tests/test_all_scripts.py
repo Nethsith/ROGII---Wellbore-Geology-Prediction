@@ -2,7 +2,9 @@ from pathlib import Path
 import subprocess
 import sys
 
-SCRIPT_DIR = Path(__file__).resolve().parent / "scripts"
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+
+SCRIPT_DIR = PROJECT_ROOT / "scripts"
 
 py_files = sorted(SCRIPT_DIR.glob("*.py"))
 
