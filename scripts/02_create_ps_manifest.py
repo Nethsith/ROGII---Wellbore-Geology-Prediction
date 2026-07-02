@@ -166,8 +166,7 @@ def main():
     report_df = pd.DataFrame(records)
 
     # Full validation report: valid + invalid files.
-    report_df.to_csv(REPORT_PATH, index=False)
-    report_df.columns = report_df.columns.str.strip().str.lower()
+    report_df.to_csv(REPORT_PATH, index=False)    
     
     if "status" not in report_df.columns:
         raise ValueError(
