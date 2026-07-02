@@ -1,6 +1,6 @@
-import kagglehub
+
 from pathlib import Path
-import os
+import subprocess
 
 COMPETITION_NAME = "rogii-wellbore-geology-prediction"
 
@@ -9,15 +9,6 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 # data/raw
 RAW_DATA_DIR = PROJECT_ROOT / "data" / "raw"
-
-KAGGLE_USERNAME = os.getenv("KAGGLE_USERNAME")
-KAGGLE_KEY = os.getenv("KAGGLE_KEY")
-
-if KAGGLE_USERNAME is not None:
-    os.environ["KAGGLE_USERNAME"] = KAGGLE_USERNAME
-
-if KAGGLE_KEY is not None:
-    os.environ["KAGGLE_KEY"] = KAGGLE_KEY
 
 
 def download_dataset():
@@ -28,13 +19,19 @@ def download_dataset():
 
     RAW_DATA_DIR.mkdir(parents=True, exist_ok=True)
 
-    path = kagglehub.competition_download(
-        COMPETITION_NAME,
-        output_dir=str(RAW_DATA_DIR)
-    )
+    subprocess.run([
+        "kaggle",
+        "competitions",
+        "download",
+        "-c", COMPETITION_NAME,
+        "-p", str(RAW_DATA_DIR),
+        "--force"
+    ], check=True)
 
-    print("Dataset downloaded to:", path)
-    return Path(path)
+    print("Download completed!")
+
+    print("Dataset downloaded to:", RAW_DATA_DIR)
+    return RAW_DATA_DIR
 
 
 if __name__ == "__main__":
